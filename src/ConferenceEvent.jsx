@@ -107,33 +107,35 @@ const ConferenceEvent = () => {
         return <>
             <div className="display_box1">
                 {items.length === 0 && <p>No items selected</p>}
-                <table className="table_item_data">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Unit Cost</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.name}</td>
-                                <td>${item.cost}</td>
-                                <td>
-                                    {item.type === "meals" || item.numberOfPeople
-                                        ? ` For ${numberOfPeople} people`
-                                        : item.quantity}
-                                </td>
-                                <td>{item.type === "meals" || item.numberOfPeople
-                                    ? `${item.cost * numberOfPeople}`
-                                    : `${item.cost * item.quantity}`}
-                                </td>
+                {items.length > 0 && 
+                    <table className="table_item_data">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Unit Cost</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {items.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.name}</td>
+                                    <td>${item.cost}</td>
+                                    <td>
+                                        {item.type === "meals" || item.numberOfPeople
+                                            ? ` For ${numberOfPeople} people`
+                                            : item.quantity}
+                                    </td>
+                                    <td>{item.type === "meals" || item.numberOfPeople
+                                        ? `${item.cost * numberOfPeople}`
+                                        : `${item.cost * item.quantity}`}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                }
             </div>
         </>
     };
@@ -181,15 +183,15 @@ const ConferenceEvent = () => {
                                         <div className="button_container">
                                             <div className="button_container">
                                                 <button
-                                                    className={venueItems[index].quantity === 0 ? " btn-warning btn-disabled" : "btn-warning btn-plus"}
+                                                    className={item.quantity === 0 ? " btn-warning btn-disabled" : "btn-warning btn-plus"}
                                                     onClick={() => handleRemoveFromCart(index)}>
                                                     &#8211;
                                                 </button>
                                                 <span className="selected_count">
-                                                    {venueItems[index].quantity > 0 ? ` ${venueItems[index].quantity}` : "0"}
+                                                    {item.quantity > 0 ? ` ${item.quantity}` : "0"}
                                                 </span>
                                                 <button
-                                                    className={venueItems[index].max - venueItems[index].quantity === 0 ? " btn-success btn-disabled" : "btn-success btn-plus"}
+                                                    className={item.max - item.quantity === 0 ? " btn-success btn-disabled" : "btn-success btn-plus"}
                                                     onClick={() => handleAddToCart(index)}>
                                                     &#43;
                                                 </button>
@@ -215,9 +217,11 @@ const ConferenceEvent = () => {
                                         <div className="text"> {item.name} </div>
                                         <div> ${item.cost} </div>
                                         <div className="addons_btn">
-                                            <button className="btn-warning" onClick={() => handleRemoveAvQuantity(index)}> &ndash; </button>
+                                            <button className={item.quantity === 0 ? " btn-warning btn-disabled" : "btn-warning btn-plus"} 
+                                            onClick={() => handleRemoveAvQuantity(index)}> &ndash; </button>
                                             <span className="quantity-value">{item.quantity}</span>
-                                            <button className=" btn-success" onClick={() => handleAddAvQuantity(index)}> &#43; </button>
+                                            <button className=" btn-success" 
+                                            onClick={() => handleAddAvQuantity(index)}> &#43; </button>
                                         </div>
                                     </div>
                                 ))}
